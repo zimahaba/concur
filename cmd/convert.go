@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"net/http"
 	"slices"
 	"strconv"
@@ -59,7 +60,7 @@ var convertCmd = &cobra.Command{
 			url := fmt.Sprintf("https://api.currencyapi.com/v3/latest?base_currency=%s&currencies=%s", conversion.BaseCurrency, currencies.String())
 			client := http.Client{}
 			req, _ := http.NewRequest("GET", url, nil)
-			req.Header.Set("apikey", "cur_live_Y48ZlyKd8vtKY3nYeTGQYyJqNSbeUXE0jpTvE21d")
+			req.Header.Set("apikey", viper.GetString("apis.available.currencyapi.apikey"))
 			resp, err := client.Do(req)
 			if err != nil {
 				return fmt.Errorf("could not connect to currency api.")
