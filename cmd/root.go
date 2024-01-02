@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"concur/pgk"
+	"concur/pkg"
 	"github.com/spf13/viper"
 	"os"
 
@@ -34,18 +34,18 @@ func init() {
 	err := viper.ReadInConfig()
 	if err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			currencyapi := pgk.Api{Name: "Currency API", Url: "https://api.currencyapi.com/v3/latest?base_currency=%s&currencies=%s", Apikey: ""}
-			exchangerateapi := pgk.Api{Name: "Exchange Rate API", Url: "exchangerateapi", Apikey: ""}
+			currencyapi := pkg.Api{Name: "Currency API", Url: "https://api.currencyapi.com/v3/latest?base_currency=%s&currencies=%s", Apikey: ""}
+			exchangerateapi := pkg.Api{Name: "Exchange Rate API", Url: "exchangerateapi", Apikey: ""}
 
-			pgk.Apis = pgk.ApiConfig{Active: "currencyapi", Available: map[string]pgk.Api{"currencyapi": currencyapi, "exchangerateapi": exchangerateapi}}
+			pkg.Apis = pkg.ApiConfig{Active: "currencyapi", Available: map[string]pkg.Api{"currencyapi": currencyapi, "exchangerateapi": exchangerateapi}}
 
-			viper.Set("apis", pgk.Apis)
+			viper.Set("apis", pkg.Apis)
 			viper.SafeWriteConfigAs("config.yaml")
 		} else {
 			panic(err)
 		}
 	} else {
-		err := viper.UnmarshalKey("apis", &pgk.Apis)
+		err := viper.UnmarshalKey("apis", &pkg.Apis)
 		if err != nil {
 			panic(err)
 		}

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"concur/pgk"
+	"concur/pkg"
 	"fmt"
 	"github.com/spf13/cobra"
 	"slices"
@@ -30,11 +30,11 @@ var convertCmd = &cobra.Command{
 			currencies = append(currencies, strings.ToUpper(args[i]))
 		}
 
-		m := make(map[string]pgk.Currency)
-		conversion := pgk.Conversion{BaseCurrency: baseCurrency, Data: m}
+		m := make(map[string]pkg.Currency)
+		conversion := pkg.Conversion{BaseCurrency: baseCurrency, Data: m}
 
 		if cache {
-			pgk.SetCachedCurrencies(&conversion, baseCurrency, currencies)
+			pkg.SetCachedCurrencies(&conversion, baseCurrency, currencies)
 		}
 
 		notCachedCurrencies := []string{}
@@ -53,20 +53,20 @@ var convertCmd = &cobra.Command{
 				}
 			}
 
-			apiClient, err := pgk.GetApiClient()
+			apiClient, err := pkg.GetApiClient()
 			if err != nil {
 				return err
 			}
 			apiClient.SetRemoteCurrencies(&conversion, currencies.String())
 
-			pgk.Upsert(conversion)
+			pkg.Upsert(conversion)
 		}
 
 		conversionMap := make(map[string]float32)
 		for k, v := range conversion.Data {
 			conversionMap[k] = v.Value * float32(value)
 		}
-		pgk.Print(baseCurrency, float32(value), conversionMap, verbose)
+		pkg.Print(baseCurrency, float32(value), conversionMap, verbose)
 		return nil
 	},
 }

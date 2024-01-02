@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"concur/pgk"
+	"concur/pkg"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -15,7 +15,7 @@ var configCmd = &cobra.Command{
 	Short: "Configure settings",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apis := pgk.ApiConfig{}
+		apis := pkg.ApiConfig{}
 		err := viper.UnmarshalKey("apis", &apis)
 		if err != nil {
 			panic(err)

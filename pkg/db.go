@@ -1,4 +1,4 @@
-package pgk
+package pkg
 
 import (
 	"database/sql"

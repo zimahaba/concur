@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"concur/pgk"
+	"concur/pkg"
 	"fmt"
 	"github.com/spf13/cobra"
 )
@@ -11,7 +11,7 @@ var showCmd = &cobra.Command{
 	Short: "Show settings",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Println(pgk.Apis.String())
+		fmt.Println(pkg.Apis.String())
 		return nil
 	},
 }

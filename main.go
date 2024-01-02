@@ -2,12 +2,12 @@ package main
 
 import (
 	"concur/cmd"
-	"concur/pgk"
+	"concur/pkg"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-	pgk.ConnectDB()
+	pkg.ConnectDB()
 	cmd.Execute()
-	pgk.DB.Close()
+	pkg.DB.Close()
 }
