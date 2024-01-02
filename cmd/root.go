@@ -37,11 +37,16 @@ func init() {
 			currencyapi := pgk.Api{Name: "Currency API", Url: "https://api.currencyapi.com/v3/latest?base_currency=%s&currencies=%s", Apikey: ""}
 			exchangerateapi := pgk.Api{Name: "Exchange Rate API", Url: "exchangerateapi", Apikey: ""}
 
-			apis := pgk.Apis{Active: "currencyapi", Available: map[string]pgk.Api{"currencyapi": currencyapi, "exchangerateapi": exchangerateapi}}
+			pgk.Apis = pgk.ApiConfig{Active: "currencyapi", Available: map[string]pgk.Api{"currencyapi": currencyapi, "exchangerateapi": exchangerateapi}}
 
-			viper.Set("apis", apis)
+			viper.Set("apis", pgk.Apis)
 			viper.SafeWriteConfigAs("config.yaml")
 		} else {
+			panic(err)
+		}
+	} else {
+		err := viper.UnmarshalKey("apis", &pgk.Apis)
+		if err != nil {
 			panic(err)
 		}
 	}

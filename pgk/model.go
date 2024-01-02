@@ -16,15 +16,15 @@ type Currency struct {
 }
 
 type Config struct {
-	Apis Apis
+	Apis ApiConfig
 }
 
-type Apis struct {
+type ApiConfig struct {
 	Active    string         `yaml:"active"`
 	Available map[string]Api `yaml:"available"`
 }
 
-func (apis Apis) String() string {
+func (apis ApiConfig) String() string {
 	sb := strings.Builder{}
 	sb.WriteString(fmt.Sprintf("Active API: %s\n", apis.Active))
 	sb.WriteString(fmt.Sprintln("Available APIS:"))

@@ -15,14 +15,13 @@ var configCmd = &cobra.Command{
 	Short: "Configure settings",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		apis := pgk.Apis{}
+		apis := pgk.ApiConfig{}
 		err := viper.UnmarshalKey("apis", &apis)
 		if err != nil {
 			panic(err)
 		}
 		if api != "" {
 			if _, ok := apis.Available[api]; ok {
-				fmt.Println("setou active")
 				apis.Active = api
 			} else {
 				return fmt.Errorf("invalid api.")
@@ -35,10 +34,6 @@ var configCmd = &cobra.Command{
 			api.Apikey = key
 			apis.Available[active] = api
 		}
-
-		fmt.Println(apis.String())
-		fmt.Println(apis.Active)
-		fmt.Println(apis.Available["currencyapi"].Apikey)
 
 		viper.Set("apis", apis)
 		viper.WriteConfig()

@@ -2,11 +2,8 @@ package cmd
 
 import (
 	"concur/pgk"
-	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"net/http"
 	"slices"
 	"strconv"
 	"strings"
@@ -48,7 +45,6 @@ var convertCmd = &cobra.Command{
 		}
 
 		if !cache || len(notCachedCurrencies) > 0 {
-
 			currencies := strings.Builder{}
 			for i := 2; i < len(args); i++ {
 				currencies.WriteString(strings.ToUpper(args[i]))
@@ -57,20 +53,11 @@ var convertCmd = &cobra.Command{
 				}
 			}
 
-			url := fmt.Sprintf("https://api.currencyapi.com/v3/latest?base_currency=%s&currencies=%s", conversion.BaseCurrency, currencies.String())
-			client := http.Client{}
-			req, _ := http.NewRequest("GET", url, nil)
-			req.Header.Set("apikey", viper.GetString("apis.available.currencyapi.apikey"))
-			resp, err := client.Do(req)
+			apiClient, err := pgk.GetApiClient()
 			if err != nil {
-				return fmt.Errorf("could not connect to currency api.")
+				return err
 			}
-			defer resp.Body.Close()
-
-			err = json.NewDecoder(resp.Body).Decode(&conversion)
-			if err != nil {
-				return fmt.Errorf("could not read currency response body.")
-			}
+			apiClient.SetRemoteCurrencies(&conversion, currencies.String())
 
 			pgk.Upsert(conversion)
 		}
