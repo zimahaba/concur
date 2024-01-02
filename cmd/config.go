@@ -33,6 +33,7 @@ var configCmd = &cobra.Command{
 			active := viper.GetString("apis.active")
 			api := apis.Available[active]
 			api.Apikey = key
+			apis.Available[active] = api
 		}
 
 		fmt.Println(apis.String())
