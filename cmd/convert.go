@@ -12,10 +12,9 @@ import (
 var verbose bool
 var cache bool
 
-// convertCmd represents the convert command
 var convertCmd = &cobra.Command{
 	Use:   "convert",
-	Short: "Convert a currency in others",
+	Short: "Convert a currency to others",
 	Long:  ``,
 	Args:  validArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
