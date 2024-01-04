@@ -15,8 +15,8 @@ type Currency struct {
 	Value float32 `json:"value"`
 }
 
-type Config struct {
-	Apis ApiConfig
+type ExchangeRate struct {
+	Rates map[string]float32 `json:"rates"`
 }
 
 type ApiConfig struct {
